@@ -1,4 +1,4 @@
-"""All testing is held in this file, utilising the 'pytest' library"""
+"""Testing for errors.py, utilising the 'pytest' library"""
 
 import pytest
 
