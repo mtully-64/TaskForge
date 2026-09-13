@@ -1,4 +1,7 @@
 from enum import StrEnum
+from dataclasses import dataclass
+import datetime
+from TaskForge.ulid import generate_ulid
 
 class JobState(StrEnum):
     """
@@ -34,3 +37,15 @@ TRANSITIONS = {
     JobState.SUCCEEDED: set(),
     JobState.CANCELLED: set(),
 }
+
+@dataclass
+class Job:
+    """
+    This is a dataclass, with everything the system needs to know about one unit of work
+    This object:
+        - Gets created by a producer, serialised, sent over a socket, written to a log file on disk, read back after a crash,
+            sent to a worker on another machine, and possibly all of that twice if the first worker dies.
+        - Hence, every field must survive a round trip and ensure that they mean the same thing on both sides
+    """
+    # Unique for each value, including the encoding of the creation time, meaning the sorting can be chronologically ordered by time
+    job_id: str = generate_ulid() # Universal Unique Lexicographically Identifier
