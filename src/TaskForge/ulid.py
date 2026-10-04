@@ -38,4 +38,3 @@ def generate_ulid() -> str:
 
     # 26 character ULID = 10 timestamp characters + 16 random characters
     return timestamp_part + random_part
-    
